@@ -27,6 +27,7 @@ class RegisteredUserController extends Controller
         return view('auth.register.register', compact('subjects'));
     }
 
+
     /**
      * Handle an incoming registration request.
      *
@@ -37,8 +38,32 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        //バリデート
+        $request->validate([
+            'over_name' => ['required', 'string', 'max:10'],
+            'under_name' => ['required', 'string', 'max:10'],
+            'over_name_kana' => ['required', 'string', 'regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u', 'max:30'],
+            'under_name_kana' => ['required', 'string', 'regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u', 'max:30'],
+            'mail_address' => ['required', 'max:100', 'unique:users,mail_address', 'email'],
+            'sex' => ['required'],
+            'old_year' => ['required', 'integer'],
+            'old_month' => ['required', 'between:1,12'],
+            'old_day' => ['required', 'between:1,31'],
+            'role' => ['required'],
+            'password' => ['required', 'confirmed',  'min:8', 'max:30', Rules\Password::defaults()],
+        ]);
+
+        $data = $request->old_year . '-' . $request->old_month . '-' . $request->old_day;
+
+
+        if (!checkdate((int)$request->old_month, (int)$request->old_day, (int)$request->old_year)) {
+            return back()->withErrors(['birth_day' => '正しい生年月日を選択してください'])->withInput();
+        }
+
+
+
         DB::beginTransaction();
-        try{
+        try {
             $old_year = $request->old_year;
             $old_month = $request->old_month;
             $old_day = $request->old_day;
@@ -57,13 +82,13 @@ class RegisteredUserController extends Controller
                 'role' => $request->role,
                 'password' => bcrypt($request->password)
             ]);
-            if($request->role == 4){
+            if ($request->role == 4) {
                 $user = User::findOrFail($user_get->id);
                 $user->subjects()->attach($subjects);
             }
             DB::commit();
             return view('auth.login.login');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             DB::rollback();
             return redirect()->route('loginView');
         }

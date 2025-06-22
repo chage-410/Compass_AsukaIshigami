@@ -3,6 +3,7 @@
 namespace App\Models\Posts;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Categories\SubCategory;
 
 class Post extends Model
 {
@@ -15,20 +16,31 @@ class Post extends Model
         'post',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\Models\Users\User');
     }
 
-    public function postComments(){
+    public function postComments()
+    {
         return $this->hasMany('App\Models\Posts\PostComment');
     }
 
-    public function subCategories(){
-        // リレーションの定義
+    public function subCategories()
+    {
+        return $this->belongsToMany(SubCategory::class, 'post_sub_categories'); // リレーションの定義追記
+
     }
 
     // コメント数
-    public function commentCounts($post_id){
+    public function commentCounts($post_id)
+    {
         return Post::with('postComments')->find($post_id)->postComments();
+    }
+
+    // いいね数
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'like_post_id');
     }
 }
