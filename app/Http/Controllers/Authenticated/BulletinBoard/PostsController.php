@@ -18,7 +18,7 @@ class PostsController extends Controller
 {
     public function show(Request $request)
     {
-
+        $users = User::with('subjects')->get();
         $like = new Like;
         $post_comment = new Post;
 
@@ -50,11 +50,8 @@ class PostsController extends Controller
 
         // ④ サブカテゴリーで絞る
         if ($request->has('category_word')) {
-            $sub_category = $request->category_word;
             $query->whereHas('subCategories', function ($q) use ($request) {
-                $q->where('post_sub_categories.sub_category_id', $sub_category)
-                    ->select('posts.*')
-                    ->get();
+                $q->where('sub_categories.id', $request->category_word);
             });
         }
 
@@ -84,6 +81,12 @@ class PostsController extends Controller
             'post_title' => $request->post_title,
             'post' => $request->post_body
         ]);
+
+        // サブカテゴリーのリレーションを保存
+        if ($request->has('sub_category_id')) {
+            $post->subCategories()->attach($request->sub_category_id);
+        }
+
         return redirect()->route('post.show');
     }
 

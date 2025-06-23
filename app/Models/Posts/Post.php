@@ -28,7 +28,12 @@ class Post extends Model
 
     public function subCategories()
     {
-        return $this->belongsToMany(SubCategory::class, 'post_sub_categories'); // リレーションの定義追記
+        return $this->belongsToMany(
+            SubCategory::class,
+            'post_sub_categories',
+            'post_id',
+            'sub_category_id'
+        ); // リレーションの定義追記
 
     }
 
