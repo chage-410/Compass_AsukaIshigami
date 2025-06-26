@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
+use App\Http\Requests\RegisterUserRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -36,40 +36,16 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(RegisterUserRequest $request)
     {
-        //バリデート
-        $request->validate([
-            'over_name' => ['required', 'string', 'max:10'],
-            'under_name' => ['required', 'string', 'max:10'],
-            'over_name_kana' => ['required', 'string', 'regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u', 'max:30'],
-            'under_name_kana' => ['required', 'string', 'regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u', 'max:30'],
-            'mail_address' => ['required', 'max:100', 'unique:users,mail_address', 'email'],
-            'sex' => ['required'],
-            'old_year' => ['required', 'integer'],
-            'old_month' => ['required', 'between:1,12'],
-            'old_day' => ['required', 'between:1,31'],
-            'role' => ['required'],
-            'password' => ['required', 'confirmed',  'min:8', 'max:30', Rules\Password::defaults()],
-        ]);
-
-        $data = $request->old_year . '-' . $request->old_month . '-' . $request->old_day;
-
-
+        // 生年月日チェック（FormRequestでは難しいためここで実施）
         if (!checkdate((int)$request->old_month, (int)$request->old_day, (int)$request->old_year)) {
             return back()->withErrors(['birth_day' => '正しい生年月日を選択してください'])->withInput();
         }
 
-
-
         DB::beginTransaction();
         try {
-            $old_year = $request->old_year;
-            $old_month = $request->old_month;
-            $old_day = $request->old_day;
-            $data = $old_year . '-' . $old_month . '-' . $old_day;
-            $birth_day = date('Y-m-d', strtotime($data));
-            $subjects = $request->subject;
+            $birth_day = $request->old_year . '-' . $request->old_month . '-' . $request->old_day;
 
             $user_get = User::create([
                 'over_name' => $request->over_name,
@@ -82,15 +58,16 @@ class RegisteredUserController extends Controller
                 'role' => $request->role,
                 'password' => bcrypt($request->password)
             ]);
+
             if ($request->role == 4) {
-                $user = User::findOrFail($user_get->id);
-                $user->subjects()->attach($subjects);
+                $user_get->subjects()->attach($request->subject);
             }
+
             DB::commit();
             return view('auth.login.login');
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->route('loginView');
+            return redirect()->route('loginView')->withErrors(['error' => '登録処理中にエラーが発生しました。']);
         }
     }
 }

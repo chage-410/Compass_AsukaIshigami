@@ -90,7 +90,7 @@ class PostsController extends Controller
         return redirect()->route('post.show');
     }
 
-    public function postEdit(Request $request)
+    public function postEdit(PostFormRequest $request)
     {
         $post = Post::findOrFail($request->post_id);
 

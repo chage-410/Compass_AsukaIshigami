@@ -159,6 +159,8 @@ return [
         'comment'  => 'コメント',
         'main_category_name'  => 'メインカテゴリー',
         'sub_category_name'  => 'サブカテゴリー',
+        'post'  => '投稿内容',
+        'post_title'  => 'タイトル',
 
     ],
 

@@ -92,22 +92,24 @@
                 <option value="4" class="">生徒</option>
               </select>
             </div>
-            <div class="selected_engineer">
+            <<div class="selected_engineer">
               <label>選択科目</label><br>
-              <label><input type="checkbox" name="subject[]" value="1" form="userSearchRequest"> 国語</label><br>
-              <label><input type="checkbox" name="subject[]" value="2" form="userSearchRequest"> 数学</label><br>
-              <label><input type="checkbox" name="subject[]" value="3" form="userSearchRequest"> 英語</label>
-            </div>
+              @foreach($subjects as $subject)
+              <label>
+                <input type="checkbox" name="subject[]" value="{{ $subject->id }}" form="userSearchRequest"> {{ $subject->subject }}
+              </label><br>
+              @endforeach
           </div>
         </div>
-        <div>
-          <input type="reset" value="リセット" form="userSearchRequest">
-        </div>
-        <div>
-          <input type="submit" name="search_btn" value="検索" form="userSearchRequest">
-        </div>
       </div>
-      <form action="{{ route('user.show') }}" method="get" id="userSearchRequest"></form>
+      <div>
+        <input type="reset" value="リセット" form="userSearchRequest">
+      </div>
+      <div>
+        <input type="submit" name="search_btn" value="検索" form="userSearchRequest">
+      </div>
     </div>
+    <form action="{{ route('user.show') }}" method="get" id="userSearchRequest"></form>
+  </div>
   </div>
 </x-sidebar>

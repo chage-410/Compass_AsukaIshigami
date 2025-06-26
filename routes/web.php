@@ -26,8 +26,7 @@ require __DIR__ . '/auth.php';
 Route::group(['middleware' => 'auth'], function () {
     Route::namespace('Authenticated')->group(function () {
         Route::namespace('Top')->group(function () {
-            Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout');
+            Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
             Route::get('top', [TopsController::class, 'show'])->name('top.show');
         });
         Route::namespace('Calendar')->group(function () {
@@ -37,13 +36,13 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::post('delete/calendar', [CalendarController::class, 'delete'])->name('deleteParts');
             });
             Route::namespace('Admin')->group(function () {
-                Route::get('calendar/{date}/{part}', [CalendarsController::class, 'reserveDetail'])->name('calendar.admin.detail');
                 Route::post('setting/update/admin', [CalendarsController::class, 'updateSettings'])->name('calendar.admin.update');
             });
             // 生徒はスクール予約確認とスクール枠登録の画面に遷移できないように制御
             Route::middleware(['auth', 'teacher'])->group(function () {
                 Route::get('calendar/{user_id}/admin', [CalendarsController::class, 'show'])->name('calendar.admin.show');
                 Route::get('setting/{user_id}/admin', [CalendarsController::class, 'reserveSettings'])->name('calendar.admin.setting');
+                Route::get('calendar/{date}/{part}', [CalendarsController::class, 'reserveDetail'])->name('calendar.admin.detail');
             });
         });
         Route::namespace('BulletinBoard')->group(function () {
