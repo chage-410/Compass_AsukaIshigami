@@ -38,6 +38,7 @@ class PostFormRequest extends FormRequest
             'post_body.required' => '内容は必ず入力してください。',
             'post_body.string' => '内容は文字列である必要があります。',
             'post_body.max' => '最大文字数は2000文字です。',
+            'birth_day' => '正しい生年月日を選択してください',
         ];
     }
 }

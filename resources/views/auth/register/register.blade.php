@@ -2,8 +2,8 @@
 
   <form action="{{ route('registerPost') }}" method="POST">
     @csrf
-    <div class="w-100 vh-100 d-flex" style="align-items:center; justify-content:center;">
-      <div class="w-25 vh-75 border p-3">
+    <div class="w-100 vh-100 d-flex" style="align-items:center; justify-content:center;background: #ecf1f6;">
+      <div class="w-25 vh-75 border p-3" style="background: #fff; border-radius: 15px; box-shadow: 5px 5px 5px #dee3e6;">
         <div class="register_form">
 
           <!-- 各項目ごとにエラーを出す -->
@@ -16,7 +16,7 @@
           @enderror
           <div class="d-flex mt-3" style="justify-content:space-between">
             <div class="" style="width:140px">
-              <label class="d-block m-0" style="font-size:13px">姓</label>
+              <label class="d-block m-0" style="font-size:13px ">姓</label>
               <div class="border-bottom border-primary" style="width:140px;">
                 <input type="text" style="width:140px;" class="border-0 over_name" name="over_name" value="{{ old('over_name') }}">
               </div>
@@ -216,10 +216,10 @@
         </div>
 
         <div class="mt-5 text-right">
-          <input type="submit" class="btn btn-primary register_btn" value="新規登録" onclick="return confirm('登録してよろしいですか？')">
+          <input type="submit" class="btn btn-primary register_btn" disabled value="新規登録" onclick="return confirm('登録してよろしいですか？')">
         </div>
         <div class="text-center">
-          <a href="{{ route('loginView') }}">ログイン</a>
+          <a href="{{ route('loginView') }}">ログインはこちら</a>
         </div>
       </div>
       {{ csrf_field() }}

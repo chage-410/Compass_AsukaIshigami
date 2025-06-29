@@ -29,4 +29,17 @@ class RegisterUserRequest extends FormRequest
             'subject' => ['array', 'nullable'],
         ];
     }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $year = (int) $this->input('old_year');
+            $month = (int) $this->input('old_month');
+            $day = (int) $this->input('old_day');
+
+            if (!checkdate($month, $day, $year)) {
+                $validator->errors()->add('birth_day', '正しい生年月日を選択してください');
+            }
+        });
+    }
 }

@@ -1,9 +1,9 @@
 <x-sidebar>
   <div class="vh-100 d-flex" style="align-items:center; justify-content:center;">
-    <div class="w-50 m-auto h-75">
+    <div class="w-75 m-auto h-75">
       <p><strong>{{ $date }} / {{ $part }}部</strong></p>
-      <div class="h-75 border">
-        <table class="table table-bordered text-center">
+      <div class="h-80 border" style="border-radius:10px; background:#FFF;box-shadow: 5px 5px 5px #dee3e6; width:850px">
+        <table class=" detail-table table-bordered text-center" style="margin:10px;width:830px">
           <thead>
             <tr>
               <th class="w-25">ID</th>

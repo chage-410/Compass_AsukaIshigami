@@ -38,10 +38,6 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisterUserRequest $request)
     {
-        // 生年月日チェック（FormRequestでは難しいためここで実施）
-        if (!checkdate((int)$request->old_month, (int)$request->old_day, (int)$request->old_year)) {
-            return back()->withErrors(['birth_day' => '正しい生年月日を選択してください'])->withInput();
-        }
 
         DB::beginTransaction();
         try {

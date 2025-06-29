@@ -23,7 +23,7 @@ class CalendarView
   {
     $html = [];
     $html[] = '<div class="calendar text-center">';
-    $html[] = '<table class="table">';
+    $html[] = '<table class="table table-bordered">';
     $html[] = '<thead>';
     $html[] = '<tr>';
     $html[] = '<th>月</th>';
@@ -31,8 +31,8 @@ class CalendarView
     $html[] = '<th>水</th>';
     $html[] = '<th>木</th>';
     $html[] = '<th>金</th>';
-    $html[] = '<th>土</th>';
-    $html[] = '<th>日</th>';
+    $html[] = '<th class="sat">土</th>';
+    $html[] = '<th class="sun">日</th>';
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
@@ -45,23 +45,29 @@ class CalendarView
 
         // 空白セルはスキップ（ただし背景グレーを適用）
         if ($day->everyDay() === '') {
-          $html[] = '<td class="calendar-td bg-secondary"></td>';
+          $html[] = '<td class="calendar-td day-blank"></td>';
           continue;
+        }
+
+        $weekDay = Carbon::parse($day->everyDay())->dayOfWeek; // 曜日取得（0:日, 6:土）
+
+        $weekClass = '';
+        if ($weekDay == 0) {
+          $weekClass = 'day-sun';
+        } elseif ($weekDay == 6) {
+          $weekClass = 'day-sat';
         }
 
         $startDay = $this->carbon->copy()->format("Y-m-01");
         $toDay = $this->carbon->copy()->format("Y-m-d");
-
         $isPast = $day->everyDay() < now()->format('Y-m-d');
         $isReserved = in_array($day->everyDay(), $day->authReserveDay());
 
-        // 背景色クラスを適用
-        $tdClass = 'calendar-td';
-        if ($isPast) {
-          $tdClass .= ' bg-secondary text-white'; // グレー背景＋白文字
+        if ($startDay <= $day->everyDay() && $toDay >= $day->everyDay()) {
+          $html[] = '<td class="calendar-td past-day ' . $weekClass . '">';
+        } else {
+          $html[] = '<td class="calendar-td ' . $day->getClassName() . ' ' . $weekClass . '">';
         }
-
-        $html[] = '<td class="' . $tdClass . '">';
         $html[] = $day->render();
 
         if ($isPast) {
@@ -100,10 +106,8 @@ class CalendarView
             $html[] = $day->selectPart($day->everyDay());
           }
         }
-
         $html[] = '</td>';
       }
-
       $html[] = '</tr>';
     }
     $html[] = '</tbody>';

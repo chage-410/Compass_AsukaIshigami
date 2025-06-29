@@ -1,18 +1,12 @@
 <x-sidebar>
-  @if ($errors->any())
-  <div class="alert alert-danger">
-    <ul>
-      @foreach ($errors->all() as $error)
-      <li>{{ $error }}</li>
-      @endforeach
-    </ul>
-  </div>
-  @endif
 
   <div class="vh-100 d-flex">
     <div class="w-50 mt-5">
       <div class="m-3 detail_container">
         <div class="p-3">
+          @error('post_title')
+          <div class="text-danger">{{ $message }}</div>
+          @enderror
           <div class="detail_inner_head">
             <div>
             </div>
@@ -20,13 +14,20 @@
             @auth
             @if (Auth::id() === $post->user_id)
             <div>
-              <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
-              <a href="{{ route('post.delete', ['id' => $post->id]) }}" onclick="return confirm('削除してよろしいですか？')">削除</a>
-
+              <span class="edit-modal-open btn btn-primary" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
+              <a class="btn btn-danger" href="{{ route('post.delete', ['id' => $post->id]) }}" onclick="return confirm('削除してよろしいですか？')">削除</a>
             </div>
             @endif
             @endauth
           </div>
+
+          {{-- 投稿に紐づくサブカテゴリーを表示 --}}
+          @foreach($post->subCategories as $sub)
+          <button type="submit" name="category_word" value="{{ $sub->id }}" form="postSearchRequest" class="category_btn">
+            {{ $sub->sub_category }}
+          </button>
+          @endforeach
+
 
           <div class="contributor d-flex">
             <p>
@@ -64,7 +65,7 @@
           <p class="m-0">コメントする</p>
           <textarea class="w-100" name="comment" form="commentRequest"></textarea>
           <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">
-          <input type="submit" class="btn btn-primary" form="commentRequest" value="投稿">
+          <input type="submit" class="btn btn-primary " form="commentRequest" value="投稿">
           <form action="{{ route('comment.create') }}" method="post" id="commentRequest">{{ csrf_field() }}</form>
         </div>
       </div>

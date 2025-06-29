@@ -22,21 +22,28 @@
 <body class="all_content">
     <div class="d-flex">
         <div class="sidebar">
-            <p><a href="{{ route('top.show') }}">トップ</a></p>
-            <p><a href="/logout">ログアウト</a></p>
-            <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">スクール予約</a></p>
+            <p><a href="{{ route('top.show') }}">
+                    <img src="{{ asset('image/home.png') }}" style="height:20px;margin:5px;">マイページ</a></p>
+            <p><a href="/logout">
+                    <img src="{{ asset('image/logout.png') }}" style="height:20px;margin:5px;">ログアウト</a></p>
+            <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">
+                    <img src="{{ asset('image/reservation.png') }}" style="height:20px;margin:5px;">スクール予約</a></p>
 
             @php
             $user = Auth::user();
             @endphp
 
             @if (in_array($user->role, [1, 2, 3])) {{-- 講師: 国語=1, 数学=2, 英語=3 --}}
-            <p><a href="{{ route('calendar.admin.show', ['user_id' => $user->id]) }}">スクール予約確認</a></p>
-            <p><a href="{{ route('calendar.admin.setting', ['user_id' => $user->id]) }}">スクール枠登録</a></p>
+            <p><a href="{{ route('calendar.admin.show', ['user_id' => $user->id]) }}">
+                    <img src="{{ asset('image/check.png') }}" style="height:20px;margin:5px;">スクール予約確認</a></p>
+            <p><a href="{{ route('calendar.admin.setting', ['user_id' => $user->id]) }}">
+                    <img src="{{ asset('image/register.png') }}" style="height:20px;margin:5px;">スクール枠登録</a></p>
             @endif
 
-            <p><a href="{{ route('post.show') }}">掲示板</a></p>
-            <p><a href="{{ route('user.show') }}">ユーザー検索</a></p>
+            <p><a href="{{ route('post.show') }}">
+                    <img src="{{ asset('image/chat.png') }}" style="height:20px;margin:5px;">掲示板</a></p>
+            <p><a href="{{ route('user.show') }}">
+                    <img src="{{ asset('image/user.png') }}" style="height:20px;margin:5px;">ユーザー検索</a></p>
         </div>
 
         <div class="main-container">

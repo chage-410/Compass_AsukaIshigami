@@ -23,7 +23,7 @@ class CalendarView
   {
     $html = [];
     $html[] = '<div class="calendar text-center">';
-    $html[] = '<table class="table m-auto border adjust-table">';
+    $html[] = '<table class="table table-bordered m-auto border adjust-table">';
     $html[] = '<thead>';
     $html[] = '<tr>';
     $html[] = '<th class="border">月</th>';
@@ -31,8 +31,8 @@ class CalendarView
     $html[] = '<th class="border">水</th>';
     $html[] = '<th class="border">木</th>';
     $html[] = '<th class="border">金</th>';
-    $html[] = '<th class="border">土</th>';
-    $html[] = '<th class="border">日</th>';
+    $html[] = '<th class="border sat">土</th>';
+    $html[] = '<th class="border sun">日</th>';
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
@@ -41,15 +41,26 @@ class CalendarView
     foreach ($weeks as $week) {
       $html[] = '<tr class="' . $week->getClassName() . '">';
       $days = $week->getDays();
+
       foreach ($days as $day) {
         $startDay = $this->carbon->format("Y-m-01");
         $toDay = $this->carbon->format("Y-m-d");
 
-        if ($startDay <= $day->everyDay() && $toDay >= $day->everyDay()) {
-          $html[] = '<td class="past-day border">';
-        } else {
-          $html[] = '<td class="border ' . $day->getClassName() . '">';
+        $weekDay = Carbon::parse($day->everyDay())->dayOfWeek; // 曜日取得（0:日, 6:土）
+
+        $weekClass = '';
+        if ($weekDay == 0) {
+          $weekClass = 'day-sun';
+        } elseif ($weekDay == 6) {
+          $weekClass = 'day-sat';
         }
+
+        if ($startDay <= $day->everyDay() && $toDay >= $day->everyDay()) {
+          $html[] = '<td class="calendar-td past-day ' . $weekClass . '">';
+        } else {
+          $html[] = '<td class="calendar-td ' . $day->getClassName() . ' ' . $weekClass . '">';
+        }
+
         $html[] = $day->render();
         $html[] = '<div class="adjust-area">';
 

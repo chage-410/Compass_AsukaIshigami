@@ -31,7 +31,7 @@ class CalendarWeekDay
 
   function render()
   {
-    return '<p class="day">' . $this->carbon->format("j") . '日</p>';
+    return '<span class="calendar-date">' . $this->carbon->format("j") .  '日</span>';
   }
 
   function selectPart($ymd)
