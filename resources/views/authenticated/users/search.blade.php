@@ -1,5 +1,4 @@
 <x-sidebar>
-  <p>ユーザー検索</p>
   <div class="search_content w-100 d-flex">
     <div class="reserve_users_area">
       @foreach($users as $user)
@@ -99,8 +98,8 @@
               <div class="subject_list">
                 @foreach($subjects as $subject)
                 <label>
-                  <input type="checkbox" name="subject[]" value="{{ $subject->id }}" form="userSearchRequest">
                   {{ $subject->subject }}
+                  <input type="checkbox" name="subject[]" value="{{ $subject->id }}" form="userSearchRequest">
                 </label>
                 @endforeach
               </div>

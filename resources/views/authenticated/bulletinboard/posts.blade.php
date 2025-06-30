@@ -1,5 +1,5 @@
 <x-sidebar>
-  <div class="board_area w-100 border m-auto d-flex">
+  <div class="board_area w-100 m-auto d-flex">
     <div class="post_view w-75 mt-5">
       <p class="w-75 m-auto">投稿一覧</p>
       @foreach($posts as $post)
@@ -32,7 +32,7 @@
               </p>
               @else
               <p class="m-0">
-                <i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i>
+                <i class="far fa-heart like_btn" post_id="{{ $post->id }}"></i>
                 <span class="like_counts{{ $post->id }}">{{ $post->likes->count() }}</span>
               </p>
               @endif

@@ -1,8 +1,8 @@
 <x-sidebar>
   <div class="vh-100 border">
-    <div class="top_area w-75 m-auto pt-5">
+    <div class="top_area container pt-5">
       <span>{{ $user->over_name }}</span><span>{{ $user->under_name }}さんのプロフィール</span>
-      <div class="user_status p-3">
+      <div class="user_status p-3" style="overflow-x:auto; word-break:break-word; max-width:100%;">
         <p>名前 : <span>{{ $user->over_name }}</span><span class="ml-1">{{ $user->under_name }}</span></p>
         <p>カナ : <span>{{ $user->over_name_kana }}</span><span class="ml-1">{{ $user->under_name_kana }}</span></p>
         <p>性別 : @if($user->sex == 1)<span>男</span>@else<span>女</span>@endif</p>

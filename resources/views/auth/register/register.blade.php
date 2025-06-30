@@ -2,9 +2,10 @@
 
   <form action="{{ route('registerPost') }}" method="POST">
     @csrf
-    <div class="w-100 vh-100 d-flex" style="align-items:center; justify-content:center;background: #ecf1f6;">
-      <div class="w-25 vh-75 border p-3" style="background: #fff; border-radius: 15px; box-shadow: 5px 5px 5px #dee3e6;">
+    <div class="register-wrapper py-5 w-100">
+      <div class="container register-form-box p-4 w-25">
         <div class="register_form">
+
 
           <!-- 各項目ごとにエラーを出す -->
           @error('over_name')

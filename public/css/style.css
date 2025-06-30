@@ -16,16 +16,49 @@ li {
   list-style: none;
 }
 
-/* サイドバー */
-.sidebar {
-  width: 200px;
-  height: 100vh;
-  background-color: #03AAD2;
-  font-weight: bold;
+/* register-wrapper: 背景と全体余白 */
+.register-wrapper {
+  background: #ECF1F6;
+  min-height: 100vh;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* 上詰め */
 }
 
-.main-container {
+/* register-form-box: 登録フォームのボックス */
+.register-form-box {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px #dee3e6;
   width: 100%;
+  max-width: 500px;
+}
+
+/* サイドバー */
+.sidebar {
+  width: 180px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #03AAD2;
+  font-weight: bold;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 20px 5px;
+}
+
+/* メインコンテンツ */
+.main-container {
+  margin-left: 200px;
+  /* サイドバーの幅と合わせる */
+  width: calc(100% - 200px);
+  height: 100vh;
+  overflow-y: auto;
+  background: #ECF1F6;
 }
 
 .sidebar p a {
@@ -37,7 +70,33 @@ li {
   border-radius: 10px;
   background: #FFF;
   box-shadow: 5px 5px 5px #dee3e6;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-x: auto;
+  max-width: 100%;
 }
+
+.top_area {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.user_status span,
+.user_status p,
+.user_status div {
+  word-break: break-word;
+}
+
+.subject_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.subject_list>div {
+  min-width: 120px;
+}
+
 
 /* スクール予約関連 */
 .day-blank {
@@ -181,6 +240,10 @@ th.sun {
   justify-content: space-between;
   margin-left: 80%;
   color: #9b9c9c;
+}
+
+.other_area {
+  margin-top: 5%;
 }
 
 .like_btn,
@@ -434,8 +497,8 @@ th.sun {
 /* ユーザー検索 */
 .reserve_users_area {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  /* 4列 */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  /* レスポンシブデザイン */
   grid-auto-rows: minmax(250px, auto);
   gap: 20px;
   width: 100%;
@@ -452,8 +515,13 @@ th.sun {
   box-shadow: 5px 5px 5px #dee3e6;
   background-color: #fff;
   font-size: 12px;
-  height: 25vh;
-  padding: 20px;
+  height: 250px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .one_person div {

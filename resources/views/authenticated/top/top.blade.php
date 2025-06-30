@@ -1,5 +1,5 @@
 <x-sidebar>
-  <div class="vh-100 border">
+  <div class="vh-100">
     <div class="top_area w-75 m-auto pt-5">
       <p>自分のプロフィール</p>
       <div class="user_status p-3">
