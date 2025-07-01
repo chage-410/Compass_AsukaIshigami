@@ -42,7 +42,6 @@ class CalendarView
 
       $days = $week->getDays();
       foreach ($days as $day) {
-
         // 空白セルはスキップ（ただし背景グレーを適用）
         if ($day->everyDay() === '') {
           $html[] = '<td class="calendar-td day-blank"></td>';
@@ -103,7 +102,11 @@ class CalendarView
             </button>
             ';
           } else {
-            $html[] = $day->selectPart($day->everyDay());
+            if ($day->everyDay() > now()->format('Y-m-d')) {
+              $html[] = $day->selectPart($day->everyDay()); // ← 明日以降のみ表示
+            } else {
+              $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px;">受付終了</p>'; // ← 今日含む過去
+            }
           }
         }
         $html[] = '</td>';

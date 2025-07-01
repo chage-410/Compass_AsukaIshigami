@@ -12,7 +12,7 @@ class CalendarWeekDay
 
   function __construct($date)
   {
-    $this->carbon = new Carbon($date);
+    $this->carbon = Carbon::parse($date)->setTimezone('Asia/Tokyo')->startOfDay();
   }
 
   function getClassName()

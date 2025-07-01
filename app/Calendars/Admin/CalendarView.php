@@ -90,7 +90,6 @@ class CalendarView
     $html[] = '<form action="' . route('calendar.admin.update') . '" method="post" id="reserveSetting">' . csrf_field() . '</form>';
     return implode("", $html);
   }
-
   protected function getWeeks()
   {
     $weeks = [];

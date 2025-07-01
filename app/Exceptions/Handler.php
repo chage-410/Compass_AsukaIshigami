@@ -60,6 +60,6 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => $exception->getMessage()], 401);
         }
 
-        return redirect()->guest(route('logout'));
+        return redirect()->guest(route('loginView'));
     }
 }
