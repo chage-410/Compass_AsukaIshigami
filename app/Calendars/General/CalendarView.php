@@ -62,7 +62,7 @@ class CalendarView
         $isPast = $day->everyDay() < now()->format('Y-m-d');
         $isReserved = in_array($day->everyDay(), $day->authReserveDay());
 
-        if ($startDay <= $day->everyDay() && $toDay >= $day->everyDay()) {
+        if ($day->everyDay() <= now()->format('Y-m-d')) {
           $html[] = '<td class="calendar-td past-day ' . $weekClass . '">';
         } else {
           $html[] = '<td class="calendar-td ' . $day->getClassName() . ' ' . $weekClass . '">';
