@@ -24,6 +24,7 @@
             </div>
             <div>
 
+
               <!-- いいね表示 -->
               @if(Auth::user()->is_Like($post->id))
               <p class="m-0">

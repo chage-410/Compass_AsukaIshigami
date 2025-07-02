@@ -9,7 +9,7 @@
 /* body */
 .all_content {
   background: #ECF1F6;
-  overflow: hidden;
+  /* overflow: hidden; */
   height: 100vh;
 }
 
